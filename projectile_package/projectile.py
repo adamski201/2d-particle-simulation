@@ -1,23 +1,25 @@
 from numpy import sign
 
-def update_state(t, x, v, a, dt=0.1):
+def update_state(t, p_x, p_y, v_x, v_y, a_x, a_y, dt=0.1):
     '''
     Update each parameter for the next time step.
     Args:
-        t, x, v, a (float) : 
-            time (s), position (m) and velocity (m/s) and acceleration (m/s2) value for this time step.
+        t, p_x, p_y, v_x, v_y, a_x, a_y (float) : 
+            time (s), position in X and Y axes (m), velocity in X and Y directions (m/s) and acceleration in X and Y directions (m/s2) values for this time step.
         dt (float) :
             time interval (s) for this small time step
     Returns:
-        float, float, float : Updated values for t, h, v after this time step
+        float, float, float, float, float : Updated values for t, p_x, p_y, v_x, v_y after this time step
     '''
-    distance_moved = v*dt + (1/2)*a*(dt**2)
-    v += a*dt
+    distance_moved_x = v_x*dt + (1/2)*a_x*(dt**2)
+    distance_moved_y = v_y*dt + (1/2)*a_y*(dt**2)
+    v_x += a_x*dt
+    v_y += a_y*dt
     t += dt
 
-    x += distance_moved
-    
-    return t, x, v
+    p_x += distance_moved_x
+    p_y += distance_moved_y
+    return t, p_x, p_y, v_x, v_y
 
 def calculate_acceleration_y(v, k=0.0, mass=1.0, gravity=-9.81):
     '''
